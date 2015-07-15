@@ -1,0 +1,32 @@
+{
+  "name": "passwordless-dynamostore",
+  "version": "0.0.0",
+  "description": "DynamoDB TokenStore for Passwordless",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jessaustin/passwordless-dynamostore.git"
+  },
+  "keywords": [
+    "passwordless",
+    "tokenstore",
+    "dynamodb"
+  ],
+  "author": "Jess Austin <jess.austin@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jessaustin/passwordless-dynamostore/issues"
+  },
+  "homepage": "https://github.com/jessaustin/passwordless-dynamostore#readme",
+  "dependencies": {
+    "aws-sdk": "~2.1.39",
+    "passwordless-tokenstore": "~0.0.10"
+  },
+  "devDependencies": {
+    "coffee-script": "~1.9.3",
+    "passwordless-tokenstore-test": "~0.1.3"
+  }
+}
