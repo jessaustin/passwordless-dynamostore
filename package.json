@@ -25,6 +25,7 @@
   "homepage": "https://github.com/jessaustin/passwordless-dynamostore#readme",
   "dependencies": {
     "aws-sdk": "~2.1.39",
+    "bcryptjs": "~2.2.0",
     "passwordless-tokenstore": "~0.0.10"
   },
   "devDependencies": {
