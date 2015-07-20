@@ -124,6 +124,13 @@ module.exports = class DynamoStore extends TokenStore
         if err then callback err else callback null, data.Count
     , callback
 
+  dropTable: (callback=->) ->
+    @ready.then =>
+      @db.deleteTable
+        TableName: @table
+      , callback
+    , callback
+
 class DynamoError extends Error
   targetClass: DynamoStore
 
