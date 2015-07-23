@@ -28,7 +28,7 @@ var DynamoStore = require('passwordless-dynamostore');
 
 passwordless.init(new DynamoStore({dynamoOptions: {region: 'eu-west-1'}}));
 ```
-This code presumes you have AWS credentials [`aws_access_key_id` and
+This code assumes you have the AWS credentials [`aws_access_key_id` and
 `aws_secret_access_key`][creds] defined in your environment.
 
 An options object may be passed to the class constructor. There are three

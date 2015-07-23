@@ -146,7 +146,7 @@ class InvalidParams extends DynamoError
   constructor: (method) ->
     @message = "#{@targetClass}:#{method} called with invalid parameters"
 
-# if you pass in wildly different tableParams you will have problems
+# if you pass in wildly different overriding tableParams you will have problems
 defaultParams =
   AttributeDefinitions: [
     AttributeType: 'S', AttributeName: 'uid'
