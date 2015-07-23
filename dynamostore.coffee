@@ -4,37 +4,22 @@
 
 {pseudoRandomBytes} = require 'crypto'
 {DynamoDB} = require 'aws-sdk'
-bcrypt     = require 'bcryptjs'
-extend     = require 'deep-extend'
+bcrypt = require 'bcryptjs'
+extend = require 'deep-extend'
 TokenStore = require 'passwordless-tokenstore'
 
 module.exports = class DynamoStore extends TokenStore
-  # use promises so constructor is synch; other methods async anyway
-  constructor: ({dynamoOptions, tableParams}={}) ->
+  constructor: ({dynamoOptions, tableParams, consistentRead}={}) ->
     @db = new DynamoDB dynamoOptions ? {}
+    @consistent = consistentRead ? no
+    # use promises so constructor is sync; other methods async anyway
     @table = new Promise (resolve, reject) =>
       TableName = tableParams?.TableName
       if TableName?
         @db.describeTable {TableName}, (err) ->
           if err then delete tableParams.TableName else resolve TableName
-      @switchTable tableParams
+      newTable @db, tableParams
         .then resolve, reject
-
-  # returns a promise
-  switchTable: (tableParams) ->
-    new Promise (resolve, reject) =>
-      pseudoRandomBytes 6, (err, bytes) =>
-        if err
-          reject "couldn't get random bytes"
-        else
-          TableName = "passwordless-dynamostore-#{bytes.toString 'base64'
-            .replace /[^a-zA-Z0-9_.-]/g, ''}"
-          params = extend {}, defaultParams, {TableName}, tableParams
-          @db.createTable params, (err) =>
-            if err
-              reject "couldn't create table #{TableName}, #{err}"
-            else
-              waitOnTableCreation @db, TableName, resolve, reject
 
   storeOrUpdate: (token, uid, msToLive, originUrl, callback) ->
     unless token and uid and msToLive and callback
@@ -50,12 +35,14 @@ module.exports = class DynamoStore extends TokenStore
             hashedToken: S: hashedToken
             originUrl: (S: originUrl) if originUrl
         , (err) =>
-          if err then callback err else @db.getItem
+          if err then callback err else @db.query
             TableName: tableName
+            Select: 'COUNT'
             ConsistentRead: yes
-            Key:
-              uid: S: uid
-              dummy: N: '0'
+            ExpressionAttributeValues:
+              ':uid': S: uid
+              ':dummy': N: '0'
+            KeyConditionExpression: 'uid = :uid and dummy = :dummy'
           , callback
     , callback
 
@@ -96,24 +83,25 @@ module.exports = class DynamoStore extends TokenStore
           uid: S: uid
           dummy: N: '0'
       , (err, data) =>
-        if err then callback err else @db.getItem
+        if err then callback err else @db.query
           TableName: tableName
+          Select: 'COUNT'
           ConsistentRead: yes
-          Key:
-            uid: S: uid
-            dummy: N: '0'
-        , (err, data) ->
+          ExpressionAttributeValues:
+            ':uid': S: uid
+            ':dummy': N: '0'
+          KeyConditionExpression: 'uid = :uid and dummy = :dummy'
+        , ->
           callback()
     , callback
 
   clear: (callback) ->
     throw new InvalidParams 'clear' unless callback
-    # XXX delete the old one!
-    @table.then (tableName) =>
-      @table = @switchTable {}
-      @table.then (fulfillment) ->
-        callback()
-      , callback
+    @table = newTable @db, {}
+    @table.then =>
+      @dropTable()
+      callback()      # no need to wait on dropTable()
+    , callback
 
   length: (callback) ->
     throw new InvalidParams 'length' unless callback
@@ -124,6 +112,29 @@ module.exports = class DynamoStore extends TokenStore
       , (err, data) ->
         if err then callback err else callback null, data.Count
     , callback
+
+  dropTable: ->
+    @table.then (tableName) =>
+      @db.deleteTable
+        TableName: tableName
+      , ->
+    , ->
+
+# returns a promise; all methods should .then() to be sure there is a table
+newTable = (db, tableParams) ->
+  new Promise (resolve, reject) =>
+    pseudoRandomBytes 6, (err, bytes) =>
+      if err
+        reject "couldn't get random bytes"
+      else
+        TableName = "passwordless-dynamostore-#{bytes.toString 'base64'
+          .replace /[^a-zA-Z0-9_.-]/g, ''}"
+        params = extend {}, defaultParams, {TableName}, tableParams
+        db.createTable params, (err) =>
+          if err
+            reject "couldn't create table #{TableName}, #{err}"
+          else
+            waitOnTableCreation db, TableName, resolve, reject
 
 # everything has to wait on table creation; ConsistentRead doesn't help
 waitOnTableCreation = (db, name, resolve, reject) ->
