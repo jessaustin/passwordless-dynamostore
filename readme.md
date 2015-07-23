@@ -28,11 +28,11 @@ passwordless.init(new DynamoStore({dynamoOptions: {region: 'eu-west-1'}}));
 An options object may be passed to the class constructor. There are three
 relevant properties:
 
-Property               | Explanation
----------------------------------------------------------------------------------------------------------------------------------------------
-dynamoOptions          | passed to [constructor](//docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#constructor-property)
-tableParams            | passed to [createTable method](//docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#createTable-property)
-stronglyConsistentAuth | will the `authenticate` method use strong consistency? [default: *eventual* consistency]
+| Property               | Explanation                                                                            |
+| -----------------------|--------------------------------------------------------------------------------------------------------------------- |
+| `dynamoOptions`          | passed to [constructor](//docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#constructor-property) |
+| `tableParams`            | passed to [createTable method](//docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#createTable-property)       |
+| `stronglyConsistentAuth` | will the `authenticate` method use strong consistency? [default: *eventual* consistency]  |
 
 ### Test
 ```bash
