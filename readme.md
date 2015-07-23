@@ -17,6 +17,15 @@ order to use this module.
 $ npm install passwordless-dynamostore
 ```
 
+### Use
+Just like any other token store:
+```javascript
+var passwordless = require('passwordless');
+var DynamoStore = require('passwordless-dynamostore');
+
+passwordless.init(new DynamoStore({dynamoOptions: {region: 'us-west-2'}}));
+```
+
 ### Test
 ```bash
 $ npm test
