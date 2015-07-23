@@ -62,7 +62,6 @@ module.exports = class DynamoStore extends TokenStore
   authenticate: (token, uid, callback) ->
     throw new InvalidParams 'authenticate' unless token and uid and callback
     @table.then (tableName) =>
-      console.log tableName
       @db.query
         TableName: tableName
         ConsistentRead: yes
@@ -78,7 +77,6 @@ module.exports = class DynamoStore extends TokenStore
         else if not data.Items.length
           callback null, no, null
         else
-          console.log token, data
           bcrypt.compare token, data.Items[0]?.hashedToken?.S, (err, valid) ->
             if err
               callback err, no, null
@@ -98,7 +96,6 @@ module.exports = class DynamoStore extends TokenStore
           uid: S: uid
           dummy: N: '0'
       , (err, data) =>
-        console.log err, data
         if err then callback err else @db.getItem
           TableName: tableName
           ConsistentRead: yes
@@ -106,7 +103,6 @@ module.exports = class DynamoStore extends TokenStore
             uid: S: uid
             dummy: N: '0'
         , (err, data) ->
-          console.log err, data
           callback()
     , callback
 
