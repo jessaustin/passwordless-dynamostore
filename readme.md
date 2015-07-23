@@ -23,7 +23,7 @@ Just like any other token store:
 var passwordless = require('passwordless');
 var DynamoStore = require('passwordless-dynamostore');
 
-passwordless.init(new DynamoStore({dynamoOptions: {region: 'us-west-2'}}));
+passwordless.init(new DynamoStore({dynamoOptions: {region: 'eu-west-1'}}));
 ```
 
 ### Test
