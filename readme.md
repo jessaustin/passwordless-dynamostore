@@ -44,15 +44,15 @@ $ npm test
 ```
 
 [travis-url]: //travis-ci.org/jessaustin/passwordless-dynamostore "Travis"
-[travis-img]: //travis-ci.org/jessaustin/passwordless-dynamostore.svg?branch=master
+[travis-img]: https://travis-ci.org/jessaustin/passwordless-dynamostore.svg?branch=master
 [cover-url]: //coveralls.io/r/jessaustin/passwordless-dynamostore?branch=master "Coveralls"
-[cover-img]: //coveralls.io/repos/jessaustin/passwordless-dynamostore/badge.svg?branch=master
+[cover-img]: https://coveralls.io/repos/jessaustin/passwordless-dynamostore/badge.svg?branch=master
 [david-url]: //david-dm.org/jessaustin/passwordless-dynamostore "David"
-[david-img]: //david-dm.org/jessaustin/passwordless-dynamostore.svg "x"
+[david-img]: https://david-dm.org/jessaustin/passwordless-dynamostore.svg
 [david-dep-url]: //david-dm.org/jessaustin/passwordless-dynamostore#info=devDependencies "David for dev"
-[david-dep-img]: //david-dm.org/jessaustin/passwordless-dynamostore/dev-status.svg
+[david-dep-img]: https://david-dm.org/jessaustin/passwordless-dynamostore/dev-status.svg
 [npmjs-url]: //www.npmjs.org/package/passwordless-dynamostore "npm Registry"
-[npmjs-img]: //nodei.co/npm/passwordless-dynamostore.png?compact=true
+[npmjs-img]: https://nodei.co/npm/passwordless-dynamostore.png?compact=true
 [const]: //docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#constructor-property "AWS.DynamoDB"
 [create]: //docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#createTable-property "AWS.DynamoDB.createTable()" 
 [auth]: //github.com/florianheinemann/passwordless-tokenstore/blob/master/lib/tokenstore.js#L7-L22 "TokenStore.authenticate()"
