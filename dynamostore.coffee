@@ -91,19 +91,29 @@ module.exports = class DynamoStore extends TokenStore
 
   invalidateUser: (uid, callback) ->
     throw new InvalidParams 'invalidateUser' unless uid and callback
-    @table.then (TableName) =>
+    @table.then (tableName) =>
       @db.deleteItem
-        TableName: @table
+        TableName: tableName
         Key:
           uid: S: uid
           dummy: N: '0'
-      , (err, data) ->
-        if err then callback err else callback()
+      , (err, data) =>
+        console.log err, data
+        if err then callback err else @db.getItem
+          TableName: tableName
+          ConsistentRead: yes
+          Key:
+            uid: S: uid
+            dummy: N: '0'
+        , (err, data) ->
+          console.log err, data
+          callback()
     , callback
 
   clear: (callback) ->
     throw new InvalidParams 'clear' unless callback
-    @table.then =>
+    # XXX delete the old one!
+    @table.then (tableName) =>
       @table = @switchTable {}
       @table.then (fulfillment) ->
         callback()
@@ -111,9 +121,9 @@ module.exports = class DynamoStore extends TokenStore
 
   length: (callback) ->
     throw new InvalidParams 'length' unless callback
-    @table.then (TableName) =>
+    @table.then (tableName) =>
       @db.scan
-        TableName: TableName
+        TableName: tableName
         Select: 'COUNT'
       , (err, data) ->
         if err then callback err else callback null, data.Count
