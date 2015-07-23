@@ -34,10 +34,10 @@ This code presumes you have AWS credentials [`aws_access_key_id` and
 An options object may be passed to the class constructor. There are three
 relevant properties:
 
-| Property                 | Explanation                            |
-| -------------------------|----------------------------------------|
-| `dynamoOptions`          | passed to [constructor][const]         |
-| `tableParams`            | passed to [`createTable` method][create] |
+| Property                 | Explanation                              |
+| -------------------------|------------------------------------------|
+| `dynamoOptions`          | passed to [constructor][const]           |
+| `tableParams`            | passed to [`createTable`][create] method |
 | `stronglyConsistentAuth` | will the [`authenticate`][auth] method use strong consistency? [default: `false`, i.e. *eventual* consistency]  |
 
 ### Test
@@ -56,6 +56,6 @@ $ npm test
 [npmjs-url]: //www.npmjs.org/package/passwordless-dynamostore "npm Registry"
 [npmjs-img]: https://nodei.co/npm/passwordless-dynamostore.png?compact=true
 [creds]: //docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-config-files "AWS Credentials"
-[const]: //docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#constructor-property "AWS.DynamoDB"
+[const]: //docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#constructor-property "AWS.DynamoDB()"
 [create]: //docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#createTable-property "AWS.DynamoDB.createTable()" 
 [auth]: //github.com/florianheinemann/passwordless-tokenstore/blob/master/lib/tokenstore.js#L7-L22 "TokenStore.authenticate()"
