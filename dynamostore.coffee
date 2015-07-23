@@ -4,26 +4,25 @@
 
 {pseudoRandomBytes} = require 'crypto'
 {DynamoDB} = require 'aws-sdk'
-bcrypt = require 'bcryptjs'
-extend = require 'deep-extend'
+bcrypt     = require 'bcryptjs'
+extend     = require 'deep-extend'
 TokenStore = require 'passwordless-tokenstore'
 
 module.exports = class DynamoStore extends TokenStore
   # use promises so constructor is synch; other methods async anyway
   constructor: ({dynamoOptions, tableParams}={}) ->
     @db = new DynamoDB dynamoOptions ? {}
-    do (TableName = tableParams?.TableName) =>
+    @table = new Promise (resolve, reject) =>
+      TableName = tableParams?.TableName
       if TableName?
         @db.describeTable {TableName}, (err) ->
-          if err
-            delete tableParams.TableName
-          else
-            @table = Promise.resolve TableName
-            return
+          if err then delete tableParams.TableName else resolve TableName
       @switchTable tableParams
+        .then resolve, reject
 
+  # returns a promise
   switchTable: (tableParams) ->
-    @table = new Promise (resolve, reject) =>
+    new Promise (resolve, reject) =>
       pseudoRandomBytes 6, (err, bytes) =>
         if err
           reject "couldn't get random bytes"
@@ -104,7 +103,11 @@ module.exports = class DynamoStore extends TokenStore
 
   clear: (callback) ->
     throw new InvalidParams 'clear' unless callback
-    @switchTable.then callback, callback
+    @table.then =>
+      @table = @switchTable {}
+      @table.then (fulfillment) ->
+        callback()
+      , callback
 
   length: (callback) ->
     throw new InvalidParams 'length' unless callback
