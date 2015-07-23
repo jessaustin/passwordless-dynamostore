@@ -9,7 +9,8 @@ more details.
 
 Storage for this module is provided by [Amazon Web
 Services'](https://aws.amazon.com/)
-[DynamoDB](https://aws.amazon.com/dynamodb/).
+[DynamoDB](https://aws.amazon.com/dynamodb/). You will need an AWS account in
+order to use this module.
 
 ### Install
 ```bash
