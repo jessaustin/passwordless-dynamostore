@@ -150,8 +150,8 @@ class InvalidParams extends DynamoError
 defaultParams =
   AttributeDefinitions: [
     AttributeType: 'S', AttributeName: 'uid'
-  , AttributeType: 'N', AttributeName: 'dummy'      # need range attr to allow
-  , {AttributeType: 'N', AttributeName: 'invalid'}  # *local* 2I
+  , AttributeType: 'N', AttributeName: 'dummy'
+  , {AttributeType: 'N', AttributeName: 'invalid'}  # extra {} for cs bug
   ]
   KeySchema: [
     KeyType: 'HASH', AttributeName: 'uid'
@@ -161,8 +161,8 @@ defaultParams =
     IndexName: 'uid-invalid-index',                 # ConsistentRead
     KeySchema: [
       KeyType: 'HASH',  AttributeName: 'uid'
-    , KeyType: 'RANGE', AttributeName: 'invalid'
-    ]
+    , KeyType: 'RANGE', AttributeName: 'invalid'    # need range attr to allow
+    ]                                               # *local* 2I
     Projection: ProjectionType: 'ALL'
   ]
   ProvisionedThroughput:                            # these can be increased
