@@ -38,15 +38,3 @@ stronglyConsistentAuth | will the `authenticate` method use strong consistency? 
 ```bash
 $ npm test
 ```
-
-# This module is a Passwordless Token Store based on AWS' DynamoDB. The
-# constructor takes an optional options object, with three members. The
-# "dynamoOptions" option is passed to the aws-sdk DynamoDB object constructor.
-# The "tableParams" option is passed to the DynamoDB:createTable method. The
-# stronglyConsistentAuth option defaults to false, and controls whether the
-# authenticate method waits for strong consistency, or as is more typical in
-# AWS settles for eventual consistency. If you have weird problems try changing
-# this option first.
-
-{pseudoRandomBytes} = require 'crypto'
-{DynamoDB} = require 'aws-sdk'
