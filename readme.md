@@ -44,6 +44,8 @@ relevant properties:
 ```bash
 $ npm test
 ```
+**gulp-nav** is distributed under the [MIT
+license](http://opensource.org/licenses/MIT).
 
 [travis-url]: //travis-ci.org/jessaustin/passwordless-dynamostore "Travis"
 [travis-img]: https://travis-ci.org/jessaustin/passwordless-dynamostore.svg?branch=master
