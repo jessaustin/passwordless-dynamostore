@@ -7,14 +7,13 @@ DynamoStore = require '../dynamostore'
 
 ds = null
 
-factory = ->
+standardTests ->
   ds = new DynamoStore
     dynamoOptions: region: 'us-west-2'
-
-standardTests factory,
-  (done) ->
-    done()
-  (done) ->
-    ds.dropTable()
-    done()
-  50000
+    stronglyConsistentAuth: yes
+, (done) ->
+  done()
+, (done) ->
+  ds.dropTable()    # avoid littering AWS with lots of tables
+  done()
+, 2000  # need this for the "flow" section
