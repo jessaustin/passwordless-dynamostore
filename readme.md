@@ -48,7 +48,7 @@ $ npm test
 [cover-url]: //coveralls.io/r/jessaustin/passwordless-dynamostore?branch=master "Coveralls"
 [cover-img]: //coveralls.io/repos/jessaustin/passwordless-dynamostore/badge.svg?branch=master
 [david-url]: //david-dm.org/jessaustin/passwordless-dynamostore "David"
-[david-img]: //david-dm.org/jessaustin/passwordless-dynamostore.svg
+[david-img]: //david-dm.org/jessaustin/passwordless-dynamostore.svg "x"
 [david-dep-url]: //david-dm.org/jessaustin/passwordless-dynamostore#info=devDependencies "David for dev"
 [david-dep-img]: //david-dm.org/jessaustin/passwordless-dynamostore/dev-status.svg
 [npmjs-url]: //www.npmjs.org/package/passwordless-dynamostore "npm Registry"
