@@ -46,7 +46,7 @@ $ cd node_modules/passwordless-dynamostore/
 $ npm install
 $ npm test
 ```
-**gulp-nav** is distributed under the [MIT
+**passwordless-dynamostore** is distributed under the [MIT
 license](http://opensource.org/licenses/MIT).
 
 [travis-url]: //travis-ci.org/jessaustin/passwordless-dynamostore "Travis"
