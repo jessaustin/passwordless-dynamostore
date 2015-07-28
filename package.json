@@ -1,6 +1,6 @@
 {
   "name": "passwordless-dynamostore",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "DynamoDB Token Store for Passwordless",
   "main": "dynamostore.js",
   "scripts": {
