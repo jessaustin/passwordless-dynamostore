@@ -2,14 +2,14 @@
 #
 # copyright (c) Jess Austin <jess.austin@gmail.com>, MIT license
 #
-# This module is a Passwordless Token Store based on AWS' DynamoDB. The
-# constructor takes an optional options object, with three members. The
-# "dynamoOptions" option is passed to the aws-sdk DynamoDB object constructor.
-# The "tableParams" option is passed to the DynamoDB:createTable method. The
-# stronglyConsistentAuth option defaults to false, and controls whether the
+# Passwordless Token Store based on AWS' DynamoDB. The constructor takes an
+# optional options object, with three optional members. The "dynamoOptions"
+# option is passed to the aws-sdk DynamoDB object constructor. The
+# "tableParams" option is passed to the DynamoDB:createTable method. The
+# "stronglyConsistentAuth" option defaults to false, and controls whether the
 # authenticate method waits for strong consistency, or as is more typical in
-# AWS settles for eventual consistency. If you have weird problems try changing
-# this option first.
+# AWS, settles for eventual consistency. If you have weird problems try
+# changing this option first.
 
 {pseudoRandomBytes} = require 'crypto'
 {DynamoDB} = require 'aws-sdk'
@@ -26,6 +26,7 @@ module.exports = class DynamoStore extends TokenStore
       TableName = tableParams?.TableName
       if TableName?
         @db.describeTable {TableName}, (err) ->
+          # XXX probably shouldn't do this
           if err then delete tableParams.TableName else resolve TableName
       newTable @db, tableParams
         .then resolve, reject
@@ -89,11 +90,13 @@ module.exports = class DynamoStore extends TokenStore
 
   clear: (callback) ->
     throw new InvalidParams 'clear' unless callback
-    @table = newTable @db, {}
-    @table.then =>
-      @dropTable()
-      callback()      # no need to wait on dropTable()
-    , callback
+    @dropTable()
+      .then =>
+        @table = newTable @db, {}
+        @table.then ->
+          callback()
+        , callback
+      , callback
 
   length: (callback) ->
     throw new InvalidParams 'length' unless callback
@@ -107,11 +110,10 @@ module.exports = class DynamoStore extends TokenStore
 
   # not a standard token store method, but useful during testing
   dropTable: ->
-    @table.then (tableName) =>
-      @db.deleteTable
-        TableName: tableName
-      , ->
-    , ->
+    @table.then (TableName) =>
+      new Promise (resolve, reject) =>
+        @db.deleteTable {TableName}, (err) ->
+          if err then reject err else resolve()
 
 # returns a promise; all methods should .then() to be sure there is a table
 newTable = (db, tableParams) ->
@@ -151,18 +153,18 @@ defaultParams =
   AttributeDefinitions: [
     AttributeType: 'S', AttributeName: 'uid'
   , AttributeType: 'N', AttributeName: 'dummy'
-  , {AttributeType: 'N', AttributeName: 'invalid'}  # extra {} for cs bug
+  , {AttributeType: 'N', AttributeName: 'invalid'}  # extra {} for cs oddity
   ]
   KeySchema: [
     KeyType: 'HASH', AttributeName: 'uid'
-  , KeyType: 'RANGE', AttributeName: 'dummy'
-  ]
+  , KeyType: 'RANGE', AttributeName: 'dummy'        # need dummy range attr to
+  ]                                                 # allow *local* 2I
   LocalSecondaryIndexes: [                          # need local 2I to allow
     IndexName: 'uid-invalid-index',                 # ConsistentRead
     KeySchema: [
       KeyType: 'HASH',  AttributeName: 'uid'
-    , KeyType: 'RANGE', AttributeName: 'invalid'    # need range attr to allow
-    ]                                               # *local* 2I
+    , KeyType: 'RANGE', AttributeName: 'invalid'
+    ]
     Projection: ProjectionType: 'ALL'
   ]
   ProvisionedThroughput:                            # these can be increased

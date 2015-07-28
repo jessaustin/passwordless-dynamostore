@@ -5,7 +5,7 @@
 standardTests = require 'passwordless-tokenstore-test'
 DynamoStore = require '../dynamostore'
 
-ds = null
+ds = undefined
 
 standardTests ->
   ds = new DynamoStore
@@ -14,6 +14,7 @@ standardTests ->
 , (done) ->
   done()
 , (done) ->
-  ds.dropTable()    # avoid littering AWS with lots of tables
-  done()
-, 2000  # need this for the "flow" section
+  ds.dropTable()                      # avoid littering AWS with lots of tables
+    .then ->
+      done()
+, 2000                                # need this for the "flow" section
