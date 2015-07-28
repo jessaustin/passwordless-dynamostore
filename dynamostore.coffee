@@ -21,7 +21,8 @@ module.exports = class DynamoStore extends TokenStore
   constructor: ({dynamoOptions, tableParams, stronglyConsistentAuth}={}) ->
     @db = new DynamoDB dynamoOptions ? {}
     @stronglyConsistentAuth = stronglyConsistentAuth ? no
-    # use promises so constructor is sync; other methods async anyway
+    # use promises so constructor is sync; other methods async anyway, so they
+    # should @table.then() to ensure the table exists
     @table = new Promise (resolve, reject) =>
       TableName = tableParams?.TableName
       if TableName?
@@ -115,7 +116,7 @@ module.exports = class DynamoStore extends TokenStore
         @db.deleteTable {TableName}, (err) ->
           if err then reject err else resolve()
 
-# returns a promise; all methods should .then() to be sure there is a table
+# returns a promise; can be .then()'ed to be sure there is a table
 newTable = (db, tableParams) ->
   new Promise (resolve, reject) =>
     pseudoRandomBytes 6, (err, bytes) =>
@@ -132,14 +133,14 @@ newTable = (db, tableParams) ->
             waitOnTableCreation db, TableName, resolve, reject
 
 # everything has to wait on table creation; ConsistentRead doesn't help
-waitOnTableCreation = (db, name, resolve, reject) ->
-  db.describeTable TableName: name, (err, data) ->
+waitOnTableCreation = (db, TableName, resolve, reject) ->
+  db.describeTable {TableName}, (err, data) ->
     if err
       reject err
     else if data?.Table?.TableStatus is 'ACTIVE'
-      resolve name
+      resolve TableName
     else
-      waitOnTableCreation db, name, resolve, reject        # otherwise, recurse
+      waitOnTableCreation db, TableName, resolve, reject   # otherwise, recurse
 
 class DynamoError extends Error
   targetClass: DynamoStore
