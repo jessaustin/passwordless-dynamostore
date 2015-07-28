@@ -42,6 +42,8 @@ relevant properties:
 
 ### Test
 ```bash
+$ cd node_modules/passwordless-dynamostore/
+$ npm install
 $ npm test
 ```
 **gulp-nav** is distributed under the [MIT
