@@ -108,7 +108,7 @@ module.exports = class DynamoStore extends TokenStore
         if err then callback err else callback null, data.Count
     , callback
 
-  # not a standard token store method, but useful during testing
+  # not a standard token store method, useful during testing; returns a promise
   dropTable: ->
     @table.then (TableName) =>
       new Promise (resolve, reject) =>
