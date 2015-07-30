@@ -15,9 +15,8 @@
 {DynamoDB} = require 'aws-sdk'
 bcrypt = require 'bcryptjs'
 deepExtend = require 'deep-extend'
-TokenStore = require 'passwordless-tokenstore'
 
-module.exports = class DynamoStore extends TokenStore
+module.exports = class DynamoStore
   constructor: ({dynamoOptions, tableParams, stronglyConsistentAuth}={}) ->
     @db = new DynamoDB dynamoOptions ? {}
     @stronglyConsistentAuth = stronglyConsistentAuth ? no
