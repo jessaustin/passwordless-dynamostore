@@ -1,6 +1,7 @@
 # Passwordless-DynamoStore
 
 [![Build Status][travis-img]][travis-url]
+[![Coverage Status][cover-img]][cover-url]
 [![Dependency Status][david-img]][david-url]
 [![devDependency Status][david-dep-img]][david-dep-url]
 [![NPM][npmjs-img]][npmjs-url]
@@ -53,7 +54,7 @@ license](http://opensource.org/licenses/MIT).
 [travis-url]: //travis-ci.org/jessaustin/passwordless-dynamostore "Travis"
 [travis-img]: https://travis-ci.org/jessaustin/passwordless-dynamostore.svg?branch=master
 [cover-url]: //coveralls.io/r/jessaustin/passwordless-dynamostore?branch=master "Coveralls"
-[cover-img]: https://coveralls.io/repos/jessaustin/passwordless-dynamostore/badge.svg?branch=master
+[cover-img]: https://coveralls.io/repos/jessaustin/passwordless-dynamostore/badge.svg?branch=master&service=github
 [david-url]: //david-dm.org/jessaustin/passwordless-dynamostore "David"
 [david-img]: https://david-dm.org/jessaustin/passwordless-dynamostore.svg
 [david-dep-url]: //david-dm.org/jessaustin/passwordless-dynamostore#info=devDependencies "David for dev"
