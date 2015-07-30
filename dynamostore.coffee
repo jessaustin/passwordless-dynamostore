@@ -1,4 +1,4 @@
-# dynamostore
+# dynamostore.coffee
 #
 # copyright (c) Jess Austin <jess.austin@gmail.com>, MIT license
 #
