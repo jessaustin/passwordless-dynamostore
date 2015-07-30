@@ -1,5 +1,6 @@
 # Passwordless-DynamoStore
 
+[![Build Status][travis-img]][travis-url]
 [![Dependency Status][david-img]][david-url]
 [![devDependency Status][david-dep-img]][david-dep-url]
 [![NPM][npmjs-img]][npmjs-url]
