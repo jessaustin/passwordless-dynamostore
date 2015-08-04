@@ -6,7 +6,7 @@
   "scripts": {
     "prepublish": "coffee --compile --map dynamostore.coffee test/*.coffee",
     "postpublish": "rm *.js *.js.map test/*.js test/*.js.map 2> /dev/null || true",
-    "test": "istanbul cover _mocha -- --timeout 20000 --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul --recursive **/*.coffee",
+    "test": "mocha --timeout 20000 **/*.coffee",
     "posttest": "istanbul report text-summary lcov"
   },
   "repository": {
