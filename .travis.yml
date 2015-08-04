@@ -2,5 +2,5 @@ language: node_js
 node_js:
   - "0.12"
   - "iojs"
-after_success:
+after_script:
   - ./node_modules/.bin/coveralls < coverage/lcov.info
