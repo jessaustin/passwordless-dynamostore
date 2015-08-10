@@ -36,10 +36,10 @@ This code assumes you have the AWS credentials [`aws_access_key_id` and
 An options object may be passed to the class constructor. There are three
 relevant properties:
 
-| Property                 | Explanation                              |
-| -------------------------|------------------------------------------|
-| `dynamoOptions`          | passed to [constructor][const]           |
-| `tableParams`            | passed to [`createTable`][create] method |
+| Property                 | Explanation                                       |
+| -------------------------|---------------------------------------------------|
+| `dynamoOptions`          | passed to [DynamoDB constructor][const]           |
+| `tableParams`            | passed to [DynamoDB `createTable`][create] method |
 | `stronglyConsistentAuth` | will the [`authenticate`][auth] method use strong consistency? [default: `false`, i.e. *eventual* consistency]  |
 
 ### Test
