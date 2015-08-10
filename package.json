@@ -6,6 +6,7 @@
   "scripts": {
     "prepublish": "coffee --compile --map dynamostore.coffee test/*.coffee",
     "postpublish": "rm *.js *.js.map test/*.js test/*.js.map 2> /dev/null || true",
+    "pretest": "tree",
     "test": "mocha --timeout 30000",
     "posttest": "istanbul report text-summary lcov"
   },
